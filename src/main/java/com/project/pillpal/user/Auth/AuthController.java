@@ -5,6 +5,7 @@ import com.project.pillpal.user.dtos.UserRequest;
 import com.project.pillpal.user.dtos.UserResponse;
 import com.project.pillpal.security.UserDetail;
 import com.project.pillpal.security.jwt.JwtService;
+import com.project.pillpal.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

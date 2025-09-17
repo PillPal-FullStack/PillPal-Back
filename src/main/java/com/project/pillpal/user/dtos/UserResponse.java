@@ -9,6 +9,6 @@ public record UserResponse(
     String username,
     String email,
     Role role,
-    List<String> medications,
+    List<String> medications
 ) {
 }

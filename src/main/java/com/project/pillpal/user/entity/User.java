@@ -1,6 +1,7 @@
 package com.project.pillpal.user.entity;
 
 
+import com.project.pillpal.medication.entity.Medication;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "com/project/pillpal/user")
+@Table(name = "users")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Builder
@@ -34,7 +35,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private List<Medication> challenges = new ArrayList<>();
+    private List<Medication> medications = new ArrayList<>();
 
 
 
