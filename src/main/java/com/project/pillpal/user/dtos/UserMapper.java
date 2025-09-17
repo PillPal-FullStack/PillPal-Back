@@ -1,6 +1,6 @@
-package users.dtos;
+package com.project.pillpal.user.dtos;
 
-import users.User;
+import com.project.pillpal.user.entity.User;
 
 public interface UserMapper {
     User dtoToEntity(UserRequest dto, List<Medication> medications);

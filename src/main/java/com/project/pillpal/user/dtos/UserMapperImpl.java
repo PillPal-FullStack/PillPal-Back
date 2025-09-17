@@ -1,7 +1,6 @@
-package users.dtos;
+package com.project.pillpal.user.dtos;
 
-import users.Role;
-import users.User;
+import com.project.pillpal.user.entity.User;
 
 import java.util.ArrayList;
 import java.util.List;

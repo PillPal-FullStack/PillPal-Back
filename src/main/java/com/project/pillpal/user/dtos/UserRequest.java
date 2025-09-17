@@ -1,7 +1,7 @@
-package users.dtos;
+package com.project.pillpal.user.dtos;
 
 import jakarta.validation.constraints.*;
-import users.Role;
+import com.project.pillpal.user.entity.Role;
 
 public record UserRequest(
         @NotBlank(message = "Username is required")

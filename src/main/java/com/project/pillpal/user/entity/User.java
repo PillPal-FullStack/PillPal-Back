@@ -1,4 +1,4 @@
-package users;
+package com.project.pillpal.user.entity;
 
 
 import jakarta.persistence.*;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "com/project/pillpal/user")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Builder
