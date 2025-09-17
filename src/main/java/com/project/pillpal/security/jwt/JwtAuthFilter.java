@@ -1,6 +1,6 @@
-package com.project.pillpal.user.security.jwt;
+package com.project.pillpal.security.jwt;
 
-import com.project.pillpal.user.security.UserDetail;
+import com.project.pillpal.security.UserDetail;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
