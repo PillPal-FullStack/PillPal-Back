@@ -1,9 +1,7 @@
 package users.dtos;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+import users.Role;
 
 public record UserRequest(
         @NotBlank(message = "Username is required")
@@ -16,6 +14,9 @@ public record UserRequest(
 
         @NotBlank (message = "Password is required")
         @Pattern(message = "Password must contain a minimum of 8 characters, including a number, one uppercase letter, one lowercase letter and one special character", regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=.])(?=\\S+$).{8,}$")
-        String password
+        String password,
+
+        @NotNull(message = "Role is required")
+        Role role
 ) {
 }
