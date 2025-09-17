@@ -3,16 +3,18 @@ package com.project.pillpal.user.service;
 import com.project.pillpal.user.dtos.UserMapperImpl;
 import com.project.pillpal.user.dtos.UserRequest;
 import com.project.pillpal.user.dtos.UserResponse;
+import com.project.pillpal.exceptions.EntityNotFoundException;
 import com.project.pillpal.user.entity.Role;
 import com.project.pillpal.user.entity.User;
 import com.project.pillpal.user.repository.UserRepository;
 import com.project.pillpal.security.UserDetail;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +42,7 @@ public class UserService implements UserDetailsService {
 
         Role requestedRole = request.role();
 
-        User user = userMapperImpl.dtoToEntity(request);
+        User user = userMapperImpl.dtoToEntity(request, new ArrayList<>());
 
         user.setPassword(passwordEncoder.encode(request.password()));
 
