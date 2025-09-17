@@ -1,6 +1,6 @@
-package com.project.pillpal.user.security;
+package com.project.pillpal.security;
 
-import com.project.pillpal.user.security.jwt.JwtAuthFilter;
+import com.project.pillpal.security.jwt.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

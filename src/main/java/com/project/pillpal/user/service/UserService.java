@@ -6,16 +6,13 @@ import com.project.pillpal.user.dtos.UserResponse;
 import com.project.pillpal.user.entity.Role;
 import com.project.pillpal.user.entity.User;
 import com.project.pillpal.user.repository.UserRepository;
-import com.project.pillpal.user.security.UserDetail;
+import com.project.pillpal.security.UserDetail;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

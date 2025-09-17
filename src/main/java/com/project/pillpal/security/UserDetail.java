@@ -1,4 +1,4 @@
-package com.project.pillpal.user.security;
+package com.project.pillpal.security;
 
 import com.project.pillpal.user.entity.User;
 import lombok.Getter;
