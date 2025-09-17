@@ -1,5 +1,6 @@
 package com.project.pillpal.medication.entity;
 
+import com.project.pillpal.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,7 +31,7 @@ public class Medication {
     private String dosage;
 
     @Column(nullable = false)
-    private boolean active = true;
+    private Boolean active = true;
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
@@ -39,9 +40,9 @@ public class Medication {
     private LocalDate endDate;
 
     @Column(nullable = false)
-    private boolean lifetime = false;
+    private Boolean lifetime = false;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }
