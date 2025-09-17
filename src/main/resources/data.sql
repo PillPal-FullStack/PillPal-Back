@@ -13,12 +13,12 @@ INSERT INTO users (id, username, email, password, role) VALUES
 
 -- Medications
 INSERT INTO medications (id, name, description, img_url, dosage, active, start_date, end_date, lifetime, user_id) VALUES
-(1, 'Aspirin', 'Pain relief and anti-inflammatory', 'https://example.com/aspirin.jpg', '100mg', true, '2024-01-01', '2024-12-31', false, 1),
-(2, 'Vitamin D', 'Daily vitamin supplement', 'https://example.com/vitamind.jpg', '1000 IU', true, '2024-01-01', NULL, true, 1),
-(3, 'Metformin', 'Diabetes medication', 'https://example.com/metformin.jpg', '500mg', true, '2024-01-01', '2024-06-30', false, 1),
-(4, 'Ibuprofen', 'NSAID for pain and fever', 'https://example.com/ibuprofen.jpg', '200mg', true, '2024-01-10', NULL, true, 1),
-(5, 'Lisinopril', 'Blood pressure control', 'https://example.com/lisinopril.jpg', '10mg', false, '2024-01-01', '2024-03-31', false, 1),
-(6, 'Omega-3', 'Fish oil supplement', 'https://example.com/omega3.jpg', '1000mg', true, '2024-02-01', NULL, true, 3);
+(1, 'Aspirin', 'Pain relief and anti-inflammatory', 'https://res.cloudinary.com/pillpal/image/upload/v1758126467/aspirina-xpress-1000mg-12-tabletas.jpg_yhgd4u.webp', '100mg', true, '2024-01-01', '2024-12-31', false, 1),
+(2, 'Vitamin D', 'Daily vitamin supplement', 'https://res.cloudinary.com/pillpal/image/upload/v1758126315/es-vitamins-d3-tablets-4k-1_llkk9r.jpg', '1000 IU', true, '2024-01-01', NULL, true, 1),
+(3, 'Metformin', 'Diabetes medication', 'https://res.cloudinary.com/pillpal/image/upload/v1758126599/metformin_ddx4hr.jpg', '500mg', true, '2024-01-01', '2024-06-30', false, 1),
+(4, 'Ibuprofen', 'NSAID for pain and fever', 'https://res.cloudinary.com/pillpal/image/upload/v1758126715/220-4956_zqtvet.jpg', '200mg', true, '2024-01-10', NULL, true, 1),
+(5, 'Lisinopril', 'Blood pressure control', 'https://res.cloudinary.com/pillpal/image/upload/v1758126797/64562_materialas_1_yxh73o.jpg', '10mg', false, '2024-01-01', '2024-03-31', false, 1),
+(6, 'Omega-3', 'Fish oil supplement', 'https://res.cloudinary.com/pillpal/image/upload/v1758126890/3D-OMEGA3.jpg_v2op6a.webp', '1000mg', true, '2024-02-01', NULL, true, 3);
 
 -- Reminders
 INSERT INTO reminders (id, time, frequency, enabled, medication_id) VALUES
