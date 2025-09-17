@@ -1,6 +1,6 @@
-package users.dtos;
+package com.project.pillpal.user.dtos;
 
-import users.Role;
+import com.project.pillpal.user.entity.Role;
 
 import java.util.List;
 
