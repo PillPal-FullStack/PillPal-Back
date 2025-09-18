@@ -9,6 +9,7 @@ import com.project.pillpal.medication.mapper.MedicationMapper;
 import com.project.pillpal.medication.repository.MedicationRepository;
 import com.project.pillpal.user.entity.User;
 import com.project.pillpal.exceptions.ResourceNotFoundException;
+import com.project.pillpal.reminder.service.ReminderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class MedicationService {
     private final MedicationMapper medicationMapper;
     private final MedicationImageService medicationImageService;
     private final MedicationStatusService medicationStatusService;
+    private final ReminderService reminderService;
 
     public List<MedicationResponse> getAllMedications() {
         log.info("Getting all medications");
@@ -73,6 +75,20 @@ public class MedicationService {
 
         Medication savedMedication = medicationRepository.save(medication);
         log.info("Successfully created medication with id: {} for user: {}", savedMedication.getId(), user.getId());
+
+        if (Boolean.TRUE.equals(request.createReminder())) {
+            try {
+                reminderService.createForMedication(
+                        savedMedication,
+                        request.reminderTime(),
+                        request.reminderFrequency(),
+                        request.reminderEnabled());
+                log.info("Created reminder for medication id {}", savedMedication.getId());
+            } catch (IllegalArgumentException ex) {
+                log.warn("Skipping reminder creation for medication id {} due to invalid data: {}",
+                        savedMedication.getId(), ex.getMessage());
+            }
+        }
 
         return medicationMapper.toResponse(savedMedication);
     }

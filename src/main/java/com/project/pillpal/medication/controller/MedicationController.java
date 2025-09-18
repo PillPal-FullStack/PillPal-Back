@@ -95,6 +95,10 @@ public class MedicationController {
                         @Parameter(description = "Start date", required = true) @RequestParam String startDate,
                         @Parameter(description = "End date") @RequestParam(required = false) String endDate,
                         @Parameter(description = "Lifetime status", required = true) @RequestParam Boolean lifetime,
+                        @Parameter(description = "Create reminder as part of medication") @RequestParam(required = false) Boolean createReminder,
+                        @Parameter(description = "Reminder time (HH:mm)") @RequestParam(required = false) String reminderTime,
+                        @Parameter(description = "Reminder frequency") @RequestParam(required = false) com.project.pillpal.reminder.entity.Frequency reminderFrequency,
+                        @Parameter(description = "Reminder enabled") @RequestParam(required = false) Boolean reminderEnabled,
                         @Parameter(description = "Image file", content = @Content(mediaType = "multipart/form-data", schema = @Schema(type = "string", format = "binary"))) @RequestParam(value = "image", required = false) MultipartFile image) {
 
                 log.info("Received request to create medication with image: {}", name);
@@ -108,7 +112,11 @@ public class MedicationController {
                                 active,
                                 java.time.LocalDate.parse(startDate),
                                 endDate != null ? java.time.LocalDate.parse(endDate) : null,
-                                lifetime);
+                                lifetime,
+                                createReminder,
+                                reminderTime != null ? java.time.LocalTime.parse(reminderTime) : null,
+                                reminderFrequency,
+                                reminderEnabled);
 
                 MedicationResponse response = medicationService.createMedication(request, image, authenticatedUser);
                 return ResponseEntity.status(HttpStatus.CREATED).body(response);
