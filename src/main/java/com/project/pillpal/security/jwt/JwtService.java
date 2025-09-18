@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -12,11 +13,13 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-    private final String JWT_SECRET_KEY = "mySecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLong";
-    private final Long JWT_EXPIRATION = 1800000L;
+    @Value("${jwt.secret}")
+    private String jwtSecretKey;
+    @Value("${jwt.expiration:1800000}")
+    private Long jwtExpiration;
 
-    public String generateToken(UserDetail userDetail)  {
-        return buildToken(userDetail, JWT_EXPIRATION);
+    public String generateToken(UserDetail userDetail) {
+        return buildToken(userDetail, jwtExpiration);
     }
 
     private String buildToken(UserDetail userDetail, long jwtExpiration) {
@@ -31,7 +34,7 @@ public class JwtService {
                 .compact();
     }
 
-    public String extractUsername (String token) {
+    public String extractUsername(String token) {
         return extractAllClaims(token).getSubject();
     }
 
@@ -54,7 +57,7 @@ public class JwtService {
     }
 
     private SecretKey getSignKey() {
-        byte[] bytes = Decoders.BASE64.decode(JWT_SECRET_KEY);
+        byte[] bytes = Decoders.BASE64.decode(jwtSecretKey);
         return Keys.hmacShaKeyFor(bytes);
     }
 }
