@@ -5,7 +5,7 @@ import com.project.pillpal.medicationintake.entity.MedicationIntake;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MedicationIntakeMapperImpl implements MedicationIntakeMapper{
+public class MedicationIntakeMapperImpl implements MedicationIntakeMapper {
     public MedicationIntakeResponse toResponse(MedicationIntake intake) {
         if (intake == null) {
             return null;
@@ -13,9 +13,8 @@ public class MedicationIntakeMapperImpl implements MedicationIntakeMapper{
 
         return new MedicationIntakeResponse(
                 intake.getId(),
-                intake.getDateTime().toString(),
-                intake.getStatus().name(),
-                intake.getMedication() != null ? intake.getMedication().getId() : null
-        );
+                intake.getDateTime() != null ? intake.getDateTime().toString() : null,
+                intake.getStatus() != null ? intake.getStatus().name() : null,
+                intake.getMedication() != null ? intake.getMedication().getId() : null);
     }
 }
