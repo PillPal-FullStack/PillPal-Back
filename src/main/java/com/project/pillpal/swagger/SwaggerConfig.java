@@ -8,8 +8,6 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
@@ -23,8 +21,6 @@ public class SwaggerConfig {
 
         @Bean
         public OpenAPI customOpenAPI() {
-                final String securitySchemeName = "bearerAuth";
-
                 return new OpenAPI()
                                 .info(new Info()
                                                 .title("PillPal API")
@@ -40,15 +36,7 @@ public class SwaggerConfig {
                                                 new Server()
                                                                 .url("http://localhost:8080")
                                                                 .description("Development server")))
-                                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                                 .components(new Components()
-                                                .addSecuritySchemes(securitySchemeName,
-                                                                new SecurityScheme()
-                                                                                .name(securitySchemeName)
-                                                                                .type(SecurityScheme.Type.HTTP)
-                                                                                .scheme("bearer")
-                                                                                .bearerFormat("JWT")
-                                                                                .description("JWT token for authentication"))
 
                                                 .addSchemas("ErrorResponse", new Schema<>()
                                                                 .type("object")
@@ -60,8 +48,6 @@ public class SwaggerConfig {
 
                                                 .addResponses("BadRequest",
                                                                 apiResponse(400, "Invalid input or malformed request"))
-                                                .addResponses("Unauthorized",
-                                                                apiResponse(401, "Authentication required"))
                                                 .addResponses("Forbidden", apiResponse(403,
                                                                 "You do not have permission to access this resource"))
                                                 .addResponses("NotFound",
