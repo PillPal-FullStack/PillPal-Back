@@ -7,7 +7,7 @@ import com.project.pillpal.medication.dtos.UpdateMedicationRequest;
 import com.project.pillpal.medication.service.MedicationService;
 import com.project.pillpal.medication.dtos.MedicationStatusResponse;
 
-import com.project.pillpal.user.auth.AuthUtils;
+import com.project.pillpal.user.TestUserUtils;
 import com.project.pillpal.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -35,6 +35,7 @@ import java.util.Map;
 public class MedicationController {
 
         private final MedicationService medicationService;
+        private final TestUserUtils testUserUtils;
 
         @GetMapping
         @Operation(summary = "Get all medications", description = "Returns a list of all medications in the system")
@@ -74,7 +75,7 @@ public class MedicationController {
                         @Parameter(description = "Data for creating medication", required = true) @RequestBody CreateMedicationRequest request) {
 
                 log.info("Received request to create medication: {}", request.name());
-                User authenticatedUser = AuthUtils.getAuthenticatedUser();
+                User authenticatedUser = testUserUtils.getTestUser();
                 MedicationResponse response = medicationService.createMedication(request, null, authenticatedUser);
                 return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }
@@ -102,7 +103,7 @@ public class MedicationController {
                         @Parameter(description = "Image file", content = @Content(mediaType = "multipart/form-data", schema = @Schema(type = "string", format = "binary"))) @RequestParam(value = "image", required = false) MultipartFile image) {
 
                 log.info("Received request to create medication with image: {}", name);
-                User authenticatedUser = AuthUtils.getAuthenticatedUser();
+                User authenticatedUser = testUserUtils.getTestUser();
 
                 CreateMedicationRequest request = new CreateMedicationRequest(
                                 name,
@@ -136,7 +137,7 @@ public class MedicationController {
                         @Parameter(description = "Data for updating medication", required = true) @RequestBody UpdateMedicationRequest request) {
 
                 log.info("Received request to update medication with id: {}", id);
-                User authenticatedUser = AuthUtils.getAuthenticatedUser();
+                User authenticatedUser = testUserUtils.getTestUser();
                 MedicationResponse response = medicationService.updateMedication(id, request, null, authenticatedUser);
                 return ResponseEntity.ok(response);
         }
@@ -162,7 +163,7 @@ public class MedicationController {
                         @Parameter(description = "Image file", content = @Content(mediaType = "multipart/form-data", schema = @Schema(type = "string", format = "binary"))) @RequestParam(value = "image", required = false) MultipartFile image) {
 
                 log.info("Received request to update medication with image, id: {}", id);
-                User authenticatedUser = AuthUtils.getAuthenticatedUser();
+                User authenticatedUser = testUserUtils.getTestUser();
 
                 UpdateMedicationRequest request = new UpdateMedicationRequest(
                                 name,
@@ -190,7 +191,7 @@ public class MedicationController {
                         @Parameter(description = "Medication ID", required = true) @PathVariable Long id) {
                 log.info("Received request to delete medication with id: {}", id);
 
-                User authenticatedUser = AuthUtils.getAuthenticatedUser();
+                User authenticatedUser = testUserUtils.getTestUser();
                 medicationService.deleteMedication(id, authenticatedUser);
 
                 Map<String, Object> response = new HashMap<>();

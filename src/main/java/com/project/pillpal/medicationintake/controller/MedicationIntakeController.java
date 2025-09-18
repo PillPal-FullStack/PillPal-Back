@@ -6,8 +6,9 @@ import com.project.pillpal.medicationintake.entity.MedicationIntake;
 import com.project.pillpal.medicationintake.entity.Status;
 import com.project.pillpal.medicationintake.mapper.MedicationIntakeMapper;
 import com.project.pillpal.medicationintake.service.MedicationIntakeService;
-import com.project.pillpal.user.auth.AuthUtils;
+import com.project.pillpal.user.TestUserUtils;
 import com.project.pillpal.user.entity.User;
+import com.project.pillpal.exceptions.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,6 +32,7 @@ public class MedicationIntakeController {
 
     private final MedicationIntakeService medicationIntakeService;
     private final MedicationIntakeMapper medicationIntakeMapper;
+    private final TestUserUtils testUserUtils;
 
     @PostMapping(consumes = "application/json")
     @Operation(summary = "Create intake", description = "Creates a medication intake record with given status")
@@ -49,7 +51,7 @@ public class MedicationIntakeController {
     @Operation(summary = "Get all intakes for current user", description = "Returns all intake records for the authenticated user, ordered by date descending")
     public ResponseEntity<List<MedicationIntakeResponse>> getAllIntakesForCurrentUser() {
         log.info("Received request to get all intake history for current user");
-        User authenticatedUser = AuthUtils.getAuthenticatedUser();
+        User authenticatedUser = testUserUtils.getTestUser();
         List<MedicationIntake> intakes = medicationIntakeService.getAllIntakesForUser(authenticatedUser.getId());
         List<MedicationIntakeResponse> responses = intakes.stream().map(medicationIntakeMapper::toResponse)
                 .collect(Collectors.toList());
@@ -61,6 +63,9 @@ public class MedicationIntakeController {
     public ResponseEntity<List<MedicationIntakeResponse>> getIntakesByMedication(@PathVariable Long medicationId) {
         log.info("Received request to get intake history for medication: {}", medicationId);
         List<MedicationIntake> intakes = medicationIntakeService.getIntakesByMedicationId(medicationId);
+        if (intakes == null || intakes.isEmpty()) {
+            throw new ResourceNotFoundException("No intakes found for this medication");
+        }
         List<MedicationIntakeResponse> responses = intakes.stream().map(medicationIntakeMapper::toResponse)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responses);

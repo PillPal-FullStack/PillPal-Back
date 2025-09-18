@@ -1,52 +1,9 @@
 {
   "metadata": {
     "generatedAt": "2025-09-18T00:00:00Z",
-    "baseUrlNote": "Prefix paths with your backend host, e.g. http://localhost:${SERVER_PORT}",
-    "auth": {
-      "type": "Bearer JWT",
-      "header": "Authorization: Bearer <token>"
-    }
+    "baseUrlNote": "Prefix paths with your backend host, e.g. http://localhost:${SERVER_PORT}"
   },
   "endpoints": [
-    {
-      "method": "POST",
-      "path": "/api/auth/login",
-      "summary": "User login",
-      "description": "Authenticate with username and password. Returns JWT token.",
-      "authRequired": false,
-      "consumes": ["application/json"],
-      "produces": ["application/json"],
-      "requestBody": {
-        "username": "string",
-        "password": "string(min 8)"
-      },
-      "responseBody": {
-        "token": "string"
-      }
-    },
-    {
-      "method": "POST",
-      "path": "/api/auth/register",
-      "summary": "User registration",
-      "description": "Register new user. Role defaults to ROLE_USER.",
-      "authRequired": false,
-      "consumes": ["application/json"],
-      "produces": ["application/json"],
-      "requestBody": {
-        "username": "string",
-        "email": "string(email)",
-        "password": "string(min 8)"
-      },
-      "responseBody": {
-        "id": "number",
-        "username": "string",
-        "email": "string",
-        "role": "string",
-        "medications": ["string"],
-        "token": "string"
-      }
-    },
-
     {
       "method": "GET",
       "path": "/api/medications",
@@ -407,18 +364,21 @@
       "method": "GET",
       "path": "/api/reminders/medication/{medicationId}",
       "summary": "Get reminders by medication ID",
-      "description": "Get all reminders for a specific medication",
+      "description": "Get all reminders for a specific medication. Returns message in Spanish if no reminders found.",
       "authRequired": true,
       "produces": ["application/json"],
-      "responseBody": [
-        {
-          "id": "number",
-          "time": "string(HH:mm:ss)",
-          "frequency": "DAILY|WEEKLY",
-          "enabled": "boolean",
-          "medicationId": "number"
-        }
-      ]
+      "responseBody": {
+        "reminders": [
+          {
+            "id": "number",
+            "time": "string(HH:mm:ss)",
+            "frequency": "DAILY|WEEKLY",
+            "enabled": "boolean",
+            "medicationId": "number"
+          }
+        ],
+        "message": "string (optional, if no reminders)"
+      }
     },
     {
       "method": "POST",
