@@ -26,7 +26,7 @@ services:
       retries: 30
 
   app:
-    build: .
+    image: tizzifona/pillpal:latest
     container_name: pillpal-app
     depends_on:
       db:
