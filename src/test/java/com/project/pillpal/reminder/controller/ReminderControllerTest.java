@@ -51,15 +51,14 @@ class ReminderControllerTest {
         private ObjectMapper objectMapper;
 
         private MockMvc mockMvc;
-        private User user;
-        private Medication medication;
+    private Medication medication;
         private Reminder reminder;
 
         @BeforeEach
         void setUp() {
                 mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-                user = new User();
+            User user = new User();
                 user.setUsername("testuser");
                 user.setEmail("test@example.com");
                 user.setPassword("password123");
@@ -168,4 +167,173 @@ class ReminderControllerTest {
                                 .andExpect(jsonPath("$.reminders").isArray())
                                 .andExpect(jsonPath("$.reminders[0].time").value("09:00:00"));
         }
+
+        @Test
+        void testCreateReminderWithDailyFrequency() throws Exception {
+                CreateReminderRequest request = new CreateReminderRequest(
+                                LocalTime.of(8, 30), Frequency.DAILY, true, medication.getId());
+
+                mockMvc.perform(post("/api/reminders")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request)))
+                                .andExpect(status().isCreated())
+                                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                                .andExpect(jsonPath("$.time").value("08:30:00"))
+                                .andExpect(jsonPath("$.frequency").value("DAILY"))
+                                .andExpect(jsonPath("$.enabled").value(true));
+        }
+
+        @Test
+        void testCreateReminderWithWeeklyFrequency() throws Exception {
+                CreateReminderRequest request = new CreateReminderRequest(
+                                LocalTime.of(14, 15), Frequency.WEEKLY, false, medication.getId());
+
+                mockMvc.perform(post("/api/reminders")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request)))
+                                .andExpect(status().isCreated())
+                                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                                .andExpect(jsonPath("$.time").value("14:15:00"))
+                                .andExpect(jsonPath("$.frequency").value("WEEKLY"))
+                                .andExpect(jsonPath("$.enabled").value(false));
+        }
+
+        @Test
+        void testCreateReminderWithNonExistentMedication() throws Exception {
+                CreateReminderRequest request = new CreateReminderRequest(
+                                LocalTime.of(10, 0), Frequency.DAILY, true, 999L);
+
+                mockMvc.perform(post("/api/reminders")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request)))
+                                .andExpect(status().isNotFound());
+        }
+
+        @Test
+        void testCreateReminderWithNullTime() throws Exception {
+                CreateReminderRequest request = new CreateReminderRequest(
+                                null, Frequency.DAILY, true, medication.getId());
+
+                mockMvc.perform(post("/api/reminders")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request)))
+                                .andExpect(status().isInternalServerError());
+        }
+
+        @Test
+        void testCreateReminderWithNullFrequency() throws Exception {
+                CreateReminderRequest request = new CreateReminderRequest(
+                                LocalTime.of(10, 0), null, true, medication.getId());
+
+                mockMvc.perform(post("/api/reminders")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request)))
+                                .andExpect(status().isInternalServerError());
+        }
+
+        @Test
+        void testCreateReminderWithNullMedicationId() throws Exception {
+                CreateReminderRequest request = new CreateReminderRequest(
+                                LocalTime.of(10, 0), Frequency.DAILY, true, null);
+
+                mockMvc.perform(post("/api/reminders")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request)))
+                                .andExpect(status().isInternalServerError());
+        }
+
+        @Test
+        void testCreateReminderWithEmptyRequestBody() throws Exception {
+                mockMvc.perform(post("/api/reminders")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{}"))
+                                .andExpect(status().isInternalServerError());
+        }
+
+        @Test
+        void testCreateReminderWithInvalidJson() throws Exception {
+                mockMvc.perform(post("/api/reminders")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("invalid json"))
+                                .andExpect(status().isInternalServerError());
+        }
+
+        @Test
+        void testUpdateReminderWithAllFields() throws Exception {
+                UpdateReminderRequest request = new UpdateReminderRequest(
+                                LocalTime.of(16, 45), Frequency.WEEKLY, false);
+
+                mockMvc.perform(put("/api/reminders/{id}", reminder.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request)))
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                                .andExpect(jsonPath("$.time").value("16:45:00"))
+                                .andExpect(jsonPath("$.frequency").value("WEEKLY"))
+                                .andExpect(jsonPath("$.enabled").value(false));
+        }
+
+        @Test
+        void testUpdateReminderWithPartialFields() throws Exception {
+                UpdateReminderRequest request = new UpdateReminderRequest(
+                                LocalTime.of(12, 30), null, null);
+
+                mockMvc.perform(put("/api/reminders/{id}", reminder.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(request)))
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                                .andExpect(jsonPath("$.time").value("12:30:00"));
+        }
+
+        @Test
+        void testUpdateReminderWithEmptyRequestBody() throws Exception {
+                mockMvc.perform(put("/api/reminders/{id}", reminder.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("{}"))
+                                .andExpect(status().isOk());
+        }
+
+        @Test
+        void testUpdateReminderWithInvalidJson() throws Exception {
+                mockMvc.perform(put("/api/reminders/{id}", reminder.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("invalid json"))
+                                .andExpect(status().isInternalServerError());
+        }
+
+        @Test
+        void testToggleReminderEnabled() throws Exception {
+                mockMvc.perform(patch("/api/reminders/{id}/toggle", reminder.getId()))
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                                .andExpect(jsonPath("$.enabled").value(false));
+        }
+
+        @Test
+        void testToggleReminderEnabledTwice() throws Exception {
+                mockMvc.perform(patch("/api/reminders/{id}/toggle", reminder.getId()))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.enabled").value(false));
+
+                mockMvc.perform(patch("/api/reminders/{id}/toggle", reminder.getId()))
+                                .andExpect(status().isOk())
+                                .andExpect(jsonPath("$.enabled").value(true));
+        }
+
+        @Test
+        void testToggleReminderEnabledNotFound() throws Exception {
+                mockMvc.perform(patch("/api/reminders/{id}/toggle", 999L))
+                                .andExpect(status().isNotFound());
+        }
+
+        @Test
+        void testGetRemindersByMedicationIdNotFound() throws Exception {
+                mockMvc.perform(get("/api/reminders/medication/{medicationId}", 999L))
+                                .andExpect(status().isOk())
+                                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                                .andExpect(jsonPath("$.message")
+                                                .value("No hay recordatorios configurados para este medicamento"));
+        }
+
 }

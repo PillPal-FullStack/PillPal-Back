@@ -1,7 +1,6 @@
 package com.project.pillpal.medication.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.pillpal.medication.dtos.CreateMedicationRequest;
 import com.project.pillpal.medication.dtos.UpdateMedicationRequest;
 import com.project.pillpal.medication.entity.Medication;
 import com.project.pillpal.medication.repository.MedicationRepository;
