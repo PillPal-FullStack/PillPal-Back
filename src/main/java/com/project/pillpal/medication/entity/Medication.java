@@ -1,12 +1,16 @@
 package com.project.pillpal.medication.entity;
 
 import com.project.pillpal.user.entity.User;
+import com.project.pillpal.medicationintake.entity.MedicationIntake;
+import com.project.pillpal.reminder.entity.Reminder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -45,4 +49,10 @@ public class Medication {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "medication", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MedicationIntake> medicationIntakes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "medication", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reminder> reminders = new ArrayList<>();
 }

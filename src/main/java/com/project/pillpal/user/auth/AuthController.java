@@ -1,4 +1,4 @@
-package com.project.pillpal.user.Auth;
+package com.project.pillpal.user.auth;
 
 import com.project.pillpal.user.dtos.JwtResponse;
 import com.project.pillpal.user.dtos.UserRequest;
