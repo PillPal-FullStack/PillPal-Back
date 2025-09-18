@@ -100,6 +100,10 @@ public class MedicationService {
         Medication medication = medicationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Medication not found with id: " + id));
 
+        if (medication.getUser() == null) {
+            medication.setUser(user);
+        }
+
         if (!medication.getUser().getId().equals(user.getId())) {
             throw new com.project.pillpal.exceptions.UnauthorizedAccessException(
                     "You are not authorized to update this medication");

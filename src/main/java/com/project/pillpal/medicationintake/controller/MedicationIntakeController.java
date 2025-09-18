@@ -8,6 +8,7 @@ import com.project.pillpal.medicationintake.mapper.MedicationIntakeMapper;
 import com.project.pillpal.medicationintake.service.MedicationIntakeService;
 import com.project.pillpal.user.auth.AuthUtils;
 import com.project.pillpal.user.entity.User;
+import com.project.pillpal.exceptions.ResourceNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -61,6 +62,9 @@ public class MedicationIntakeController {
     public ResponseEntity<List<MedicationIntakeResponse>> getIntakesByMedication(@PathVariable Long medicationId) {
         log.info("Received request to get intake history for medication: {}", medicationId);
         List<MedicationIntake> intakes = medicationIntakeService.getIntakesByMedicationId(medicationId);
+        if (intakes == null || intakes.isEmpty()) {
+            throw new ResourceNotFoundException("No intakes found for this medication");
+        }
         List<MedicationIntakeResponse> responses = intakes.stream().map(medicationIntakeMapper::toResponse)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(responses);

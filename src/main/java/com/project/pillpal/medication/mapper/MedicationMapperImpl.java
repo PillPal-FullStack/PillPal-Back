@@ -51,17 +51,20 @@ public class MedicationMapperImpl implements MedicationMapper {
             return;
         }
 
-        if (request.name() != null) {
+        if (request.name() != null && !request.name().trim().isEmpty()) {
             medication.setName(request.name());
         }
-        if (request.description() != null) {
-            medication.setDescription(request.description());
+
+        if (request.description() != null && !isPlaceholderValue(request.description())) {
+            medication.setDescription(request.description().trim().isEmpty() ? null : request.description());
         }
-        if (request.imgUrl() != null) {
-            medication.setImgUrl(request.imgUrl());
+
+        if (request.imgUrl() != null && !isPlaceholderValue(request.imgUrl())) {
+            medication.setImgUrl(request.imgUrl().trim().isEmpty() ? null : request.imgUrl());
         }
-        if (request.dosage() != null) {
-            medication.setDosage(request.dosage());
+
+        if (request.dosage() != null && !isPlaceholderValue(request.dosage())) {
+            medication.setDosage(request.dosage().trim().isEmpty() ? null : request.dosage());
         }
         if (request.active() != null) {
             medication.setActive(request.active());
@@ -75,5 +78,16 @@ public class MedicationMapperImpl implements MedicationMapper {
         if (request.lifetime() != null) {
             medication.setLifetime(request.lifetime());
         }
+    }
+
+    private boolean isPlaceholderValue(String value) {
+        if (value == null) {
+            return false;
+        }
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ||
+                "string".equals(trimmed) ||
+                "null".equals(trimmed) ||
+                "undefined".equals(trimmed);
     }
 }
