@@ -37,11 +37,11 @@ public class MedicationMapperImpl implements MedicationMapper {
         medication.setName(request.name());
         medication.setDescription(request.description());
         medication.setImgUrl(request.imgUrl());
-        medication.setDosage(request.dosage());
-        medication.setActive(request.active());
+        medication.setDosage(request.dosage() != null ? request.dosage() : "Not specified");
+        medication.setActive(request.active() != null ? request.active() : true);
         medication.setStartDate(request.startDate());
         medication.setEndDate(request.endDate());
-        medication.setLifetime(request.lifetime());
+        medication.setLifetime(request.lifetime() != null ? request.lifetime() : false);
         return medication;
     }
 
@@ -77,4 +77,3 @@ public class MedicationMapperImpl implements MedicationMapper {
         }
     }
 }
-

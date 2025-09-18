@@ -1,4 +1,4 @@
-package com.project.pillpal.user.Auth;
+package com.project.pillpal.user.auth;
 
 import com.project.pillpal.user.dtos.JwtResponse;
 import com.project.pillpal.user.dtos.UserRequest;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;
@@ -29,8 +29,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody UserRequest userRequest) {
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userRequest.username(), userRequest.password())
-        );
+                new UsernamePasswordAuthenticationToken(userRequest.username(), userRequest.password()));
         UserDetail userDetails = (UserDetail) auth.getPrincipal();
         String token = jwtService.generateToken(userDetails);
         return ResponseEntity.ok(new JwtResponse(token));
