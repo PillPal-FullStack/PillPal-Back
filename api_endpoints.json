@@ -105,7 +105,11 @@
         "active": "boolean",
         "startDate": "string(YYYY-MM-DD)",
         "endDate": "string(YYYY-MM-DD|null)",
-        "lifetime": "boolean"
+        "lifetime": "boolean",
+        "createReminder": "boolean|null",
+        "reminderTime": "string(HH:mm)|null",
+        "reminderFrequency": "DAILY|WEEKLY|null",
+        "reminderEnabled": "boolean|null"
       },
       "responseBody": {
         "id": "number",
@@ -136,6 +140,10 @@
         "startDate": "string(YYYY-MM-DD)",
         "endDate": "string(YYYY-MM-DD|null)",
         "lifetime": "boolean",
+        "createReminder": "boolean|null",
+        "reminderTime": "string(HH:mm)|null",
+        "reminderFrequency": "DAILY|WEEKLY|null",
+        "reminderEnabled": "boolean|null",
         "image": "file|null"
       },
       "responseBody": {
@@ -361,6 +369,127 @@
       "authRequired": true,
       "produces": ["application/json"],
       "responseBody": { "id": "number", "dateTime": "string(ISO)", "status": "SKIPPED", "medicationId": "number" }
+    },
+
+    {
+      "method": "GET",
+      "path": "/api/reminders",
+      "summary": "Get all reminders",
+      "description": "Get all reminders in the system",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": [
+        {
+          "id": "number",
+          "time": "string(HH:mm:ss)",
+          "frequency": "DAILY|WEEKLY",
+          "enabled": "boolean",
+          "medicationId": "number"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/reminders/{id}",
+      "summary": "Get reminder by ID",
+      "description": "Get reminder by ID",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": {
+        "id": "number",
+        "time": "string(HH:mm:ss)",
+        "frequency": "DAILY|WEEKLY",
+        "enabled": "boolean",
+        "medicationId": "number"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/reminders/medication/{medicationId}",
+      "summary": "Get reminders by medication ID",
+      "description": "Get all reminders for a specific medication",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": [
+        {
+          "id": "number",
+          "time": "string(HH:mm:ss)",
+          "frequency": "DAILY|WEEKLY",
+          "enabled": "boolean",
+          "medicationId": "number"
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/reminders",
+      "summary": "Create new reminder",
+      "description": "Create new reminder for a medication",
+      "authRequired": true,
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "requestBody": {
+        "time": "string(HH:mm:ss)",
+        "frequency": "DAILY|WEEKLY",
+        "enabled": "boolean",
+        "medicationId": "number"
+      },
+      "responseBody": {
+        "id": "number",
+        "time": "string(HH:mm:ss)",
+        "frequency": "DAILY|WEEKLY",
+        "enabled": "boolean",
+        "medicationId": "number"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/reminders/{id}",
+      "summary": "Update reminder",
+      "description": "Update existing reminder by ID (partial update - all fields optional)",
+      "authRequired": true,
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "requestBody": {
+        "time": "string(HH:mm:ss)|null",
+        "frequency": "DAILY|WEEKLY|null",
+        "enabled": "boolean|null"
+      },
+      "responseBody": {
+        "id": "number",
+        "time": "string(HH:mm:ss)",
+        "frequency": "DAILY|WEEKLY",
+        "enabled": "boolean",
+        "medicationId": "number"
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/reminders/{id}/toggle",
+      "summary": "Toggle reminder enabled status",
+      "description": "Toggle the enabled/disabled status of a reminder with one click",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": {
+        "id": "number",
+        "time": "string(HH:mm:ss)",
+        "frequency": "DAILY|WEEKLY",
+        "enabled": "boolean",
+        "medicationId": "number"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/reminders/{id}",
+      "summary": "Delete reminder",
+      "description": "Delete reminder by ID",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": {
+        "success": "boolean",
+        "message": "string",
+        "reminderId": "number"
+      }
     }
   ]
 }

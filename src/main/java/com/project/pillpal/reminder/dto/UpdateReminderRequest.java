@@ -5,7 +5,7 @@ import com.project.pillpal.reminder.entity.Frequency;
 import java.time.LocalTime;
 
 public record UpdateReminderRequest(
-        LocalTime time,
-        Frequency frequency,
-        Boolean enabled
-) {}
+                LocalTime time,
+                Frequency frequency,
+                Boolean enabled) {
+}
