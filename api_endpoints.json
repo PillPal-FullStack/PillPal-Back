@@ -9,7 +9,7 @@
       "path": "/api/medications",
       "summary": "Get all medications",
       "description": "Get all medications.",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": [
         {
@@ -31,7 +31,7 @@
       "path": "/api/medications/{id}",
       "summary": "Get medication by ID",
       "description": "Get medication by ID.",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": {
         "id": "number",
@@ -51,7 +51,7 @@
       "path": "/api/medications",
       "summary": "Create new medication",
       "description": "Create new medication.",
-      "authRequired": true,
+      "authRequired": false,
       "consumes": ["application/json"],
       "produces": ["application/json"],
       "requestBody": {
@@ -86,7 +86,7 @@
       "path": "/api/medications/with-image",
       "summary": "Create medication with image",
       "description": "Create new medication with optional image upload (multipart/form-data).",
-      "authRequired": true,
+      "authRequired": false,
       "consumes": ["multipart/form-data"],
       "produces": ["application/json"],
       "requestBody(formData)": {
@@ -121,7 +121,7 @@
       "path": "/api/medications/{id}",
       "summary": "Update medication",
       "description": "Update medication by ID.",
-      "authRequired": true,
+      "authRequired": false,
       "consumes": ["application/json"],
       "produces": ["application/json"],
       "requestBody": {
@@ -152,7 +152,7 @@
       "path": "/api/medications/{id}/with-image",
       "summary": "Update medication with image",
       "description": "Update medication by ID with optional new image (multipart/form-data).",
-      "authRequired": true,
+      "authRequired": false,
       "consumes": ["multipart/form-data"],
       "produces": ["application/json"],
       "requestBody(formData)": {
@@ -183,7 +183,7 @@
       "path": "/api/medications/{id}",
       "summary": "Delete medication",
       "description": "Delete medication by ID.",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": {
         "success": "boolean",
@@ -196,7 +196,7 @@
       "path": "/api/medications/user/{userId}",
       "summary": "Get user's medications",
       "description": "Get all medications for a specific user.",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": [
         {
@@ -218,7 +218,7 @@
       "path": "/api/medications/active",
       "summary": "Get active medications",
       "description": "Get all active medications.",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": ["MedicationResponse"]
     },
@@ -227,7 +227,7 @@
       "path": "/api/medications/status",
       "summary": "Get medications status by time of day",
       "description": "Get medications with today's status and next reminder.",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": [
         {
@@ -248,7 +248,7 @@
       "path": "/api/medications/{id}/status",
       "summary": "Get medication status by ID",
       "description": "Returns status for a specific medication based on today's intake records.",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": {
         "medicationId": "number",
@@ -265,7 +265,7 @@
       "path": "/api/medications/search",
       "summary": "Search medications by name",
       "description": "Search medications by name (query param 'name').",
-      "authRequired": true,
+      "authRequired": false,
       "queryParams": { "name": "string" },
       "produces": ["application/json"],
       "responseBody": ["MedicationResponse"]
@@ -275,7 +275,7 @@
       "path": "/api/medications/user/{userId}/search",
       "summary": "Search user's medications by name",
       "description": "Search medications by name for a specific user (query param 'name').",
-      "authRequired": true,
+      "authRequired": false,
       "queryParams": { "name": "string" },
       "produces": ["application/json"],
       "responseBody": ["MedicationResponse"]
@@ -285,7 +285,7 @@
       "path": "/api/intakes",
       "summary": "Create intake",
       "description": "Creates a medication intake record with given status.",
-      "authRequired": true,
+      "authRequired": false,
       "consumes": ["application/json"],
       "produces": ["application/json"],
       "requestBody": { "medicationId": "number", "status": "TAKEN|SKIPPED" },
@@ -296,7 +296,7 @@
       "path": "/api/intakes/me",
       "summary": "Get current user's intakes",
       "description": "Returns all intake records for the authenticated user (newest first).",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": [ { "id": "number", "dateTime": "string(ISO)", "status": "TAKEN|SKIPPED", "medicationId": "number" } ]
     },
@@ -305,7 +305,7 @@
       "path": "/api/intakes/medication/{medicationId}",
       "summary": "Get intakes by medication",
       "description": "Returns intake history for a specific medication.",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": [ { "id": "number", "dateTime": "string(ISO)", "status": "TAKEN|SKIPPED", "medicationId": "number" } ]
     },
@@ -314,7 +314,7 @@
       "path": "/api/intakes/{medicationId}/taken",
       "summary": "Mark medication as taken",
       "description": "Quick action to mark medication as taken",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": { "id": "number", "dateTime": "string(ISO)", "status": "TAKEN", "medicationId": "number" }
     },
@@ -323,7 +323,7 @@
       "path": "/api/intakes/{medicationId}/skipped",
       "summary": "Mark medication as skipped",
       "description": "Quick action to mark medication as skipped",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": { "id": "number", "dateTime": "string(ISO)", "status": "SKIPPED", "medicationId": "number" }
     },
@@ -333,7 +333,7 @@
       "path": "/api/reminders",
       "summary": "Get all reminders",
       "description": "Get all reminders in the system",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": [
         {
@@ -350,7 +350,7 @@
       "path": "/api/reminders/{id}",
       "summary": "Get reminder by ID",
       "description": "Get reminder by ID",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": {
         "id": "number",
@@ -365,7 +365,7 @@
       "path": "/api/reminders/medication/{medicationId}",
       "summary": "Get reminders by medication ID",
       "description": "Get all reminders for a specific medication. Returns message in Spanish if no reminders found.",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": {
         "reminders": [
@@ -385,7 +385,7 @@
       "path": "/api/reminders",
       "summary": "Create new reminder",
       "description": "Create new reminder for a medication",
-      "authRequired": true,
+      "authRequired": false,
       "consumes": ["application/json"],
       "produces": ["application/json"],
       "requestBody": {
@@ -407,7 +407,7 @@
       "path": "/api/reminders/{id}",
       "summary": "Update reminder",
       "description": "Update existing reminder by ID (partial update - all fields optional)",
-      "authRequired": true,
+      "authRequired": false,
       "consumes": ["application/json"],
       "produces": ["application/json"],
       "requestBody": {
@@ -428,7 +428,7 @@
       "path": "/api/reminders/{id}/toggle",
       "summary": "Toggle reminder enabled status",
       "description": "Toggle the enabled/disabled status of a reminder with one click",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": {
         "id": "number",
@@ -443,7 +443,7 @@
       "path": "/api/reminders/{id}",
       "summary": "Delete reminder",
       "description": "Delete reminder by ID",
-      "authRequired": true,
+      "authRequired": false,
       "produces": ["application/json"],
       "responseBody": {
         "success": "boolean",
