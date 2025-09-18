@@ -33,6 +33,8 @@ services:
         condition: service_healthy
     env_file:
       - ./.env
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
     ports:
       - "8080:8080"
 
