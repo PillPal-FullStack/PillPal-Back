@@ -12,13 +12,13 @@
       "method": "POST",
       "path": "/api/auth/login",
       "summary": "User login",
-      "description": "User login. Returns JWT token.",
+      "description": "Authenticate with username and password. Returns JWT token.",
       "authRequired": false,
       "consumes": ["application/json"],
       "produces": ["application/json"],
       "requestBody": {
         "username": "string",
-        "password": "string"
+        "password": "string(min 8)"
       },
       "responseBody": {
         "token": "string"
@@ -28,14 +28,14 @@
       "method": "POST",
       "path": "/api/auth/register",
       "summary": "User registration",
-      "description": "User registration.",
+      "description": "Register new user. Role defaults to ROLE_USER.",
       "authRequired": false,
       "consumes": ["application/json"],
       "produces": ["application/json"],
       "requestBody": {
         "username": "string",
         "email": "string(email)",
-        "password": "string(>=8 with upper/lower/number/special)"
+        "password": "string(min 8)"
       },
       "responseBody": {
         "id": "number",

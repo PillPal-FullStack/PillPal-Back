@@ -14,22 +14,18 @@ public class UserMapperImpl implements UserMapper {
                 .username(dto.username())
                 .email(dto.email())
                 .password(dto.password())
-                .role(dto.role())
+                .role(com.project.pillpal.user.entity.Role.ROLE_USER)
                 .medications(new ArrayList<>(medications))
                 .build();
     }
 
     @Override
     public UserResponse entityToDto(User user) {
-        List<String> medications = user.getMedications().stream()
-                .map(medication -> medication.getName())
-                .toList();
         return new UserResponse(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getRole(),
-                medications
-        );
+                null);
     }
 }

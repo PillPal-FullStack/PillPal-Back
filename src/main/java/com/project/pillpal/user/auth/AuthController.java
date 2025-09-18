@@ -2,6 +2,7 @@ package com.project.pillpal.user.auth;
 
 import com.project.pillpal.user.dtos.JwtResponse;
 import com.project.pillpal.user.dtos.UserRequest;
+import com.project.pillpal.user.dtos.LoginRequest;
 import com.project.pillpal.user.dtos.UserResponse;
 import com.project.pillpal.security.UserDetail;
 import com.project.pillpal.security.jwt.JwtService;
@@ -27,7 +28,7 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> login(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest userRequest) {
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userRequest.username(), userRequest.password()));
         UserDetail userDetails = (UserDetail) auth.getPrincipal();
