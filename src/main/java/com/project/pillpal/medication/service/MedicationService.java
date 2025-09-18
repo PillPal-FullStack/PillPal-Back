@@ -167,4 +167,9 @@ public class MedicationService {
         return medicationStatusService.getMedicationsByTimeOfDay();
     }
 
+    public MedicationStatusResponse getMedicationStatusById(Long medicationId) {
+        log.info("Getting medication status by id {}", medicationId);
+        return medicationStatusService.getMedicationStatusById(medicationId);
+    }
+
 }

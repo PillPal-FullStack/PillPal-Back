@@ -65,4 +65,22 @@ public class MedicationIntakeService {
         log.debug("Getting intakes for medication {} between {} and {}", medicationId, startDate, endDate);
         return medicationIntakeRepository.findByMedicationIdAndDateTimeBetween(medicationId, startDate, endDate);
     }
+
+    public List<MedicationIntake> getAllIntakesForUser(Long userId) {
+        log.debug("Getting all intakes for user {} ordered by date desc", userId);
+        return medicationIntakeRepository.findByMedicationUserIdOrderByDateTimeDesc(userId);
+    }
+
+    public MedicationIntake createIntake(Long medicationId, Status status) {
+        log.info("Creating intake for medication {} with status {}", medicationId, status);
+        Medication medication = medicationRepository.findById(medicationId)
+                .orElseThrow(() -> new ResourceNotFoundException("Medication not found with id: " + medicationId));
+
+        MedicationIntake intake = new MedicationIntake();
+        intake.setDateTime(LocalDateTime.now());
+        intake.setStatus(status);
+        intake.setMedication(medication);
+
+        return medicationIntakeRepository.save(intake);
+    }
 }

@@ -38,6 +38,18 @@ public class MedicationStatusService {
                 .collect(java.util.stream.Collectors.toList());
     }
 
+    public MedicationStatusResponse getMedicationStatusById(Long medicationId) {
+        log.info("Getting status for medication {}", medicationId);
+        Medication medication = medicationRepository.findById(medicationId)
+                .orElseThrow(() -> new com.project.pillpal.exceptions.ResourceNotFoundException(
+                        "Medication not found with id: " + medicationId));
+
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime endOfDay = today.atTime(LocalTime.MAX);
+        return buildMedicationStatusResponse(medication, startOfDay, endOfDay);
+    }
+
     private MedicationStatusResponse buildMedicationStatusResponse(Medication medication,
             LocalDateTime startOfDay,
             LocalDateTime endOfDay) {

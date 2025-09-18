@@ -1,0 +1,366 @@
+{
+  "metadata": {
+    "generatedAt": "2025-09-18T00:00:00Z",
+    "baseUrlNote": "Prefix paths with your backend host, e.g. http://localhost:${SERVER_PORT}",
+    "auth": {
+      "type": "Bearer JWT",
+      "header": "Authorization: Bearer <token>"
+    }
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "summary": "User login",
+      "description": "User login. Returns JWT token.",
+      "authRequired": false,
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "requestBody": {
+        "username": "string",
+        "password": "string"
+      },
+      "responseBody": {
+        "token": "string"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/register",
+      "summary": "User registration",
+      "description": "User registration.",
+      "authRequired": false,
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "requestBody": {
+        "username": "string",
+        "email": "string(email)",
+        "password": "string(>=8 with upper/lower/number/special)"
+      },
+      "responseBody": {
+        "id": "number",
+        "username": "string",
+        "email": "string",
+        "role": "string",
+        "medications": ["string"],
+        "token": "string"
+      }
+    },
+
+    {
+      "method": "GET",
+      "path": "/api/medications",
+      "summary": "Get all medications",
+      "description": "Get all medications.",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": [
+        {
+          "id": "number",
+          "name": "string",
+          "description": "string|null",
+          "imgUrl": "string|null",
+          "dosage": "string",
+          "active": "boolean",
+          "startDate": "string(YYYY-MM-DD)",
+          "endDate": "string(YYYY-MM-DD|null)",
+          "lifetime": "boolean",
+          "userId": "number"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/medications/{id}",
+      "summary": "Get medication by ID",
+      "description": "Get medication by ID.",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": {
+        "id": "number",
+        "name": "string",
+        "description": "string|null",
+        "imgUrl": "string|null",
+        "dosage": "string",
+        "active": "boolean",
+        "startDate": "string(YYYY-MM-DD)",
+        "endDate": "string(YYYY-MM-DD|null)",
+        "lifetime": "boolean",
+        "userId": "number"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/medications",
+      "summary": "Create new medication",
+      "description": "Create new medication.",
+      "authRequired": true,
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "requestBody": {
+        "name": "string",
+        "description": "string|null",
+        "imgUrl": "string|null",
+        "dosage": "string",
+        "active": "boolean",
+        "startDate": "string(YYYY-MM-DD)",
+        "endDate": "string(YYYY-MM-DD|null)",
+        "lifetime": "boolean"
+      },
+      "responseBody": {
+        "id": "number",
+        "name": "string",
+        "description": "string|null",
+        "imgUrl": "string|null",
+        "dosage": "string",
+        "active": "boolean",
+        "startDate": "string(YYYY-MM-DD)",
+        "endDate": "string(YYYY-MM-DD|null)",
+        "lifetime": "boolean",
+        "userId": "number"
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/medications/with-image",
+      "summary": "Create medication with image",
+      "description": "Create new medication with optional image upload (multipart/form-data).",
+      "authRequired": true,
+      "consumes": ["multipart/form-data"],
+      "produces": ["application/json"],
+      "requestBody(formData)": {
+        "name": "string",
+        "description": "string|null",
+        "dosage": "string",
+        "active": "boolean",
+        "startDate": "string(YYYY-MM-DD)",
+        "endDate": "string(YYYY-MM-DD|null)",
+        "lifetime": "boolean",
+        "image": "file|null"
+      },
+      "responseBody": {
+        "id": "number",
+        "name": "string",
+        "description": "string|null",
+        "imgUrl": "string|null",
+        "dosage": "string",
+        "active": "boolean",
+        "startDate": "string(YYYY-MM-DD)",
+        "endDate": "string(YYYY-MM-DD|null)",
+        "lifetime": "boolean",
+        "userId": "number"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/medications/{id}",
+      "summary": "Update medication",
+      "description": "Update medication by ID.",
+      "authRequired": true,
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "requestBody": {
+        "name": "string|null",
+        "description": "string|null",
+        "imgUrl": "string|null",
+        "dosage": "string|null",
+        "active": "boolean|null",
+        "startDate": "string(YYYY-MM-DD|null)",
+        "endDate": "string(YYYY-MM-DD|null)",
+        "lifetime": "boolean|null"
+      },
+      "responseBody": {
+        "id": "number",
+        "name": "string",
+        "description": "string|null",
+        "imgUrl": "string|null",
+        "dosage": "string",
+        "active": "boolean",
+        "startDate": "string(YYYY-MM-DD)",
+        "endDate": "string(YYYY-MM-DD|null)",
+        "lifetime": "boolean",
+        "userId": "number"
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/medications/{id}/with-image",
+      "summary": "Update medication with image",
+      "description": "Update medication by ID with optional new image (multipart/form-data).",
+      "authRequired": true,
+      "consumes": ["multipart/form-data"],
+      "produces": ["application/json"],
+      "requestBody(formData)": {
+        "name": "string|null",
+        "description": "string|null",
+        "dosage": "string|null",
+        "active": "boolean|null",
+        "startDate": "string(YYYY-MM-DD|null)",
+        "endDate": "string(YYYY-MM-DD|null)",
+        "lifetime": "boolean|null",
+        "image": "file|null"
+      },
+      "responseBody": {
+        "id": "number",
+        "name": "string",
+        "description": "string|null",
+        "imgUrl": "string|null",
+        "dosage": "string",
+        "active": "boolean",
+        "startDate": "string(YYYY-MM-DD)",
+        "endDate": "string(YYYY-MM-DD|null)",
+        "lifetime": "boolean",
+        "userId": "number"
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/medications/{id}",
+      "summary": "Delete medication",
+      "description": "Delete medication by ID.",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": {
+        "success": "boolean",
+        "message": "string",
+        "medicationId": "number"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/medications/user/{userId}",
+      "summary": "Get user's medications",
+      "description": "Get all medications for a specific user.",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": [
+        {
+          "id": "number",
+          "name": "string",
+          "description": "string|null",
+          "imgUrl": "string|null",
+          "dosage": "string",
+          "active": "boolean",
+          "startDate": "string(YYYY-MM-DD)",
+          "endDate": "string(YYYY-MM-DD|null)",
+          "lifetime": "boolean",
+          "userId": "number"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/medications/active",
+      "summary": "Get active medications",
+      "description": "Get all active medications.",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": ["MedicationResponse"]
+    },
+    {
+      "method": "GET",
+      "path": "/api/medications/status",
+      "summary": "Get medications status by time of day",
+      "description": "Get medications with today's status and next reminder.",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": [
+        {
+          "medicationId": "number",
+          "medicationName": "string",
+          "dosage": "string",
+          "nextReminderTime": "string(HH:mm:ss)",
+          "status": "string",
+          "todayIntakes": [
+            { "id": "number", "dateTime": "string(ISO)", "status": "TAKEN|SKIPPED", "medicationId": "number" }
+          ],
+          "active": "boolean"
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/medications/{id}/status",
+      "summary": "Get medication status by ID",
+      "description": "Returns status for a specific medication based on today's intake records.",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": {
+        "medicationId": "number",
+        "medicationName": "string",
+        "dosage": "string",
+        "nextReminderTime": "string|null",
+        "status": "string",
+        "todayIntakes": [ { "id": "number", "dateTime": "string(ISO)", "status": "TAKEN|SKIPPED", "medicationId": "number" } ],
+        "active": "boolean"
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/medications/search",
+      "summary": "Search medications by name",
+      "description": "Search medications by name (query param 'name').",
+      "authRequired": true,
+      "queryParams": { "name": "string" },
+      "produces": ["application/json"],
+      "responseBody": ["MedicationResponse"]
+    },
+    {
+      "method": "GET",
+      "path": "/api/medications/user/{userId}/search",
+      "summary": "Search user's medications by name",
+      "description": "Search medications by name for a specific user (query param 'name').",
+      "authRequired": true,
+      "queryParams": { "name": "string" },
+      "produces": ["application/json"],
+      "responseBody": ["MedicationResponse"]
+    },
+    {
+      "method": "POST",
+      "path": "/api/intakes",
+      "summary": "Create intake",
+      "description": "Creates a medication intake record with given status.",
+      "authRequired": true,
+      "consumes": ["application/json"],
+      "produces": ["application/json"],
+      "requestBody": { "medicationId": "number", "status": "TAKEN|SKIPPED" },
+      "responseBody": { "id": "number", "dateTime": "string(ISO)", "status": "TAKEN|SKIPPED", "medicationId": "number" }
+    },
+    {
+      "method": "GET",
+      "path": "/api/intakes/me",
+      "summary": "Get current user's intakes",
+      "description": "Returns all intake records for the authenticated user (newest first).",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": [ { "id": "number", "dateTime": "string(ISO)", "status": "TAKEN|SKIPPED", "medicationId": "number" } ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/intakes/medication/{medicationId}",
+      "summary": "Get intakes by medication",
+      "description": "Returns intake history for a specific medication.",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": [ { "id": "number", "dateTime": "string(ISO)", "status": "TAKEN|SKIPPED", "medicationId": "number" } ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/intakes/{medicationId}/taken",
+      "summary": "Mark medication as taken",
+      "description": "Quick action to mark medication as taken",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": { "id": "number", "dateTime": "string(ISO)", "status": "TAKEN", "medicationId": "number" }
+    },
+    {
+      "method": "POST",
+      "path": "/api/intakes/{medicationId}/skipped",
+      "summary": "Mark medication as skipped",
+      "description": "Quick action to mark medication as skipped",
+      "authRequired": true,
+      "produces": ["application/json"],
+      "responseBody": { "id": "number", "dateTime": "string(ISO)", "status": "SKIPPED", "medicationId": "number" }
+    }
+  ]
+}

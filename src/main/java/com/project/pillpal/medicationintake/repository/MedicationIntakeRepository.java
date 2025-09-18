@@ -11,4 +11,6 @@ public interface MedicationIntakeRepository extends JpaRepository<MedicationInta
 
     List<MedicationIntake> findByMedicationIdAndDateTimeBetween(Long medicationId, LocalDateTime start,
             LocalDateTime end);
+
+    List<MedicationIntake> findByMedicationUserIdOrderByDateTimeDesc(Long userId);
 }
