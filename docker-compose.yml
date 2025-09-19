@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  db:
+    image: mysql:8.0
+    container_name: pillpal-mysql
+    environment:
+      MYSQL_DATABASE: pillpal
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: pillpal
+      MYSQL_PASSWORD: pillpal
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    command:
+      [
+        "mysqld",
+        "--default-authentication-plugin=mysql_native_password",
+        "--character-set-server=utf8mb4",
+        "--collation-server=utf8mb4_unicode_ci",
+      ]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-ppillpal"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  app:
+    image: tizzifona/pillpal:latest
+    container_name: pillpal-app
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ./.env
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    ports:
+      - "8080:8080"
+
+volumes:
+  db_data:
