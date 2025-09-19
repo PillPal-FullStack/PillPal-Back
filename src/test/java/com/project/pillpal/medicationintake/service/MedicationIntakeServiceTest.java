@@ -17,7 +17,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -62,7 +61,8 @@ class MedicationIntakeServiceTest {
         intake.setStatus(Status.TAKEN);
         intake.setMedication(medication);
 
-        MedicationIntakeResponse intakeResponse = new MedicationIntakeResponse(1L, LocalDateTime.now().toString(), "TAKEN", 1L);
+        MedicationIntakeResponse intakeResponse = new MedicationIntakeResponse(1L, LocalDateTime.now().toString(),
+                "TAKEN", 1L);
 
     }
 
