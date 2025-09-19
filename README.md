@@ -12,7 +12,7 @@ Bienvenido a la API backend para Pillpal, una app web diseñado para permitir el
 - [Docker](#-docker)
 - [Endpoints](#-algunos-endpoints)
 - [Testing](#-testing)
-- [Esquema de Base de Datos](#-esquema-de-base-de-datos)
+- [Relaciones](#-relaciones)
 - [Autores](#-backend-by)
 
 ## 🔹 Características (MVP)
